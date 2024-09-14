@@ -4,14 +4,14 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from api.openai_compatible_api import OpenAICompatibleAPI
-from src.config import OPENROUTER_API_KEY, YOUR_SITE_URL, YOUR_SITE_NAME
+from src.config import LLM_API_ENDPOINT, LLM_API_KEY, YOUR_SITE_URL, YOUR_SITE_NAME
 from src.logger import logger
 
 def process_question(user_question: str) -> str:
     """
     Processes the user's question by generating reasoning tokens and then the final answer.
     """
-    api = OpenAICompatibleAPI(OPENROUTER_API_KEY, YOUR_SITE_URL, YOUR_SITE_NAME)
+    api = OpenAICompatibleAPI(LLM_API_ENDPOINT, LLM_API_KEY, YOUR_SITE_URL, YOUR_SITE_NAME)
 
     try:
         logger.info("Generating reasoning tokens...")

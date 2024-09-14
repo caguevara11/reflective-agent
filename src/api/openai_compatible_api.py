@@ -7,7 +7,8 @@ class OpenAICompatibleAPI:
     A class that handles interactions with an OpenAI compatible API.
     """
 
-    def __init__(self, api_key: str, site_url: str = '', site_name: str = ''):
+    def __init__(self, endpoint:str, api_key: str, site_url: str = '', site_name: str = ''):
+        self.endpoint = endpoint
         self.api_key = api_key
         self.site_url = site_url
         self.site_name = site_name
@@ -32,8 +33,8 @@ class OpenAICompatibleAPI:
 
     @retry(max_attempts=3, delay=1.0)
     def make_request(self, payload: Dict) -> str:
-        response = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=self._create_headers(), json=payload)
-        response.raise_for_status()  # Raises HTTPError for bad HTTP status codes
+        response = requests.post(self.endpoint, headers=self._create_headers(), json=payload)
+        response.raise_for_status()
         data = response.json()
         if 'choices' in data and data['choices']:
             return data['choices'][0]['message']['content'].strip()
