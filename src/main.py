@@ -14,8 +14,12 @@ def process_question(user_question: str) -> str:
     api = OpenAICompatibleAPI(LLM_API_ENDPOINT, LLM_API_KEY, YOUR_SITE_URL, YOUR_SITE_NAME)
 
     try:
+        logger.info("Improving user question...")
+        improved_user_question = api.improve_user_question(user_question)
+        print("\nImproved User Question:\n")
+        print(improved_user_question)
         logger.info("Generating reasoning tokens...")
-        reasoning_tokens = api.generate_reasoning_tokens(user_question)
+        reasoning_tokens = api.generate_reasoning_tokens(improved_user_question)
         logger.info("Reasoning tokens generated.")
         print("\nReasoning Tokens:\n")
         print(reasoning_tokens)
