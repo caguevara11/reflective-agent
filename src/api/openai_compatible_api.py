@@ -133,7 +133,7 @@ class OpenAICompatibleAPI:
                 ~Present the final optimized prompt including Frameworks,
                 methodologies, models, or methods to make a more insightful answer.
                 Ensure to use only well-known and recognized frameworks.
-                For example, AIDA or STAR for copywriting. All frameworks mentioned
+                For example, AIDA or STAR if user question is about copywriting. All frameworks mentioned
                 should be established and not newly invented.
                 These are not software libraries or programming frameworks,
                 but rather guides on how to handle specific topics or methods.
