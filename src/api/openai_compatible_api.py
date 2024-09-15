@@ -1,28 +1,22 @@
 import requests
 from typing import Dict, List
 from src.utils.retry_decorator import retry
+from src.config import DEFAULT_MODEL, DEFAULT_TEMPERATURE, DEFAULT_MAX_TOKENS
 
 class OpenAICompatibleAPI:
     """
     Handles interactions with an OpenAI-compatible API.
     """
-    DEFAULT_MODEL = 'openai/gpt-4o-mini-2024-07-18'
-    DEFAULT_TEMPERATURE = 0.7
-    DEFAULT_MAX_TOKENS = 8000
 
-    def __init__(self, endpoint: str, api_key: str, site_url: str = '', site_name: str = ''):
+    def __init__(self, endpoint: str, api_key: str):
         self.endpoint = endpoint
         self.api_key = api_key
-        self.site_url = site_url
-        self.site_name = site_name
 
     def _create_headers(self) -> Dict[str, str]:
         """Creates headers for the API request."""
         return {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
-            "HTTP-Referer": self.site_url,
-            "X-Title": self.site_name
         }
 
     def _create_payload(self, model: str, messages: List[Dict[str, str]], temperature: float, max_tokens: int) -> Dict:
@@ -118,8 +112,23 @@ class OpenAICompatibleAPI:
             {
                 "role": "system",
                 "content": (
-                    "Act as a prompt engineer to refine the user's question for clarity and effectiveness. "
-                    "Identify and apply relevant frameworks to optimize the prompt."
+                    """
+                Act as a prompt engineer for a software development team.
+                Your goal is to improve the user's question by:
+                ~Rewrite the prompt for clarity and effectiveness
+                ~Identify potential improvements or additions
+                ~Refine the prompt based on identified improvements
+                ~Present the final optimized prompt including Frameworks,
+                methodologies, models, or methods to make a more insightful answer.
+                Ensure to use only well-known and recognized frameworks.
+                For example, AIDA or STAR if user question is about copywriting. All frameworks mentioned
+                should be established and not newly invented.
+                These are not software libraries or programming frameworks,
+                but rather guides on how to handle specific topics or methods.
+
+                Your answer should be only the final optimized prompt that will later be used to generate the final answer.
+                Thats means that you dont write anything else, only the optimized prompt.
+                """
                 )
             },
             {
